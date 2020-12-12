@@ -1,6 +1,6 @@
 import cv2
 import os,sys
-from dual_camera import *
+from stereo_camera import *
 
 
 def capture_images():
