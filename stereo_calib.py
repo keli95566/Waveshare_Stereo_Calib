@@ -179,6 +179,8 @@ def stereo_calib(criteria_stereo= (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX
     wls_filter.setLambda(lmbda)
     wls_filter.setSigmaColor(sigma)
 
+    return stereo, stereoR, wls_filter
+
 if __name__=="__main__":
     if not os.path.exists(os.path.join(current_file_path, "calib_result")):
         os.mkdir(os.path.join(current_file_path, "calib_result"))
