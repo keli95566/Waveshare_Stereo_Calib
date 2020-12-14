@@ -88,6 +88,9 @@ def intrinsic_calib(images,
 def stereo_calib(criteria_stereo= (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)):
     """
     """
+    if not os.path.exists(os.path.join(current_file_path, "calib_result")):
+        os.mkdir(os.path.join(current_file_path, "calib_result"))
+
     if not os.path.exists((os.path.join(current_file_path, "calib_result", "left_intrinsic_calib.pkl"))):
         left_images  = glob.glob(os.path.join(current_file_path, "images","left_*"))
         intrinsic_calib(left_images, "left_intrinsic_calib")
@@ -150,40 +153,12 @@ def stereo_calib(criteria_stereo= (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX
     Right_Stereo_Map= cv2.initUndistortRectifyMap(MRS, dRS, RR, PR,
                                                  img_shape, cv2.CV_16SC2)
     #*******************************************
-    #***** Parameters for the StereoVision *****
-    #*******************************************
 
-    # Create StereoSGBM and prepare all parameters
-    window_size = 3
-    min_disp = 2
-    num_disp = 130-min_disp
-    stereo = cv2.StereoSGBM_create(minDisparity = min_disp,
-        numDisparities = num_disp,
-        blockSize = window_size,
-        uniquenessRatio = 10,
-        speckleWindowSize = 100,
-        speckleRange = 32,
-        disp12MaxDiff = 5,
-        P1 = 8*3*window_size**2,
-        P2 = 32*3*window_size**2)
 
-    # Used for the filtered image
-    stereoR=cv2.ximgproc.createRightMatcher(stereo) # Create another stereo for right this time
-
-    # WLS FILTER Parameters
-    lmbda = 80000
-    sigma = 1.8
-    visual_multiplier = 1.0
-    
-    wls_filter = cv2.ximgproc.createDisparityWLSFilter(matcher_left=stereo)
-    wls_filter.setLambda(lmbda)
-    wls_filter.setSigmaColor(sigma)
-
-    return stereo, stereoR, wls_filter
+    return Left_Stereo_Map, Right_Stereo_Map
 
 if __name__=="__main__":
-    if not os.path.exists(os.path.join(current_file_path, "calib_result")):
-        os.mkdir(os.path.join(current_file_path, "calib_result"))
+    
 
     #left_images  = glob.glob(os.path.join(current_file_path, "images","left_*"))
     #right_images = glob.glob(os.path.join(current_file_path, "images", "right_*")) 
