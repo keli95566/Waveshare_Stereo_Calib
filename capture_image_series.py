@@ -1,17 +1,20 @@
 import cv2
 import os,sys
 from stereo_camera import *
+current_file_path = os.path.dirname(os.path.abspath(__file__))
 
 
 def capture_images():
+    if not os.path.exists(os.path.join(current_file_path, "images")):
+        os.mkdir(os.path.join(current_file_path, "images"))
     left_camera = CSI_Camera()
     left_camera.open(
         gstreamer_pipeline(
             sensor_id=0,
             sensor_mode=3,
             flip_method=0,
-            display_height=540,
-            display_width=960,
+            display_height=720,
+            display_width=1280,
         )
     )
     left_camera.start()
@@ -22,8 +25,8 @@ def capture_images():
             sensor_id=1,
             sensor_mode=3,
             flip_method=0,
-            display_height=540,
-            display_width=960,
+            display_height=720,
+            display_width=1280,
         )
     )
     right_camera.start()

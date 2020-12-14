@@ -83,7 +83,7 @@ if __name__ == "__main__":
     cams = stereo_camera()
     cv2.namedWindow("CSI Cameras", cv2.WINDOW_AUTOSIZE)
 
-    frame_rate = 0.5 # yep... Best Jetson Nano can do without crashing 
+    frame_rate = 0.5 # yep... Best Jetson Nano can do without crashing for 540*960 image size
     prev = 0
 
     while cv2.getWindowProperty("CSI Cameras", 0) >= 0 :
